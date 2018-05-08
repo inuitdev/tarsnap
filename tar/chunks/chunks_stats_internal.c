@@ -63,6 +63,20 @@ chunks_stats_addstats(struct chunkstats * to, struct chunkstats * from)
 	to->s_zlen += from->s_zlen;
 }
 
+/* Add stats from two chunkstats. */
+static struct chunkstats
+chunks_stats_combine(struct chunkstats * a, struct chunkstats * b)
+{
+	struct chunkstats s;
+
+	/* Compute sum of a and b. */
+	s.nchunks = a->nchunks + b->nchunks;
+	s.s_len = a->s_len + b->s_len;
+	s.s_zlen = a->s_zlen + b->s_zlen;
+
+	return (s);
+}
+
 /**
  * chunks_stats_printheader(stream, csv):
  * Print a header line for statistics to ${stream}, optionally in ${csv}
@@ -119,9 +133,7 @@ chunks_stats_print(FILE * stream, struct chunkstats * stats,
 	char * format_string;
 
 	/* Compute sum of stats and stats_extra. */
-	s.nchunks = stats->nchunks + stats_extra->nchunks;
-	s.s_len = stats->s_len + stats_extra->s_len;
-	s.s_zlen = stats->s_zlen + stats_extra->s_zlen;
+	s = chunks_stats_combine(stats, stats_extra);
 
 	/* Stringify values. */
 	if (tarsnap_opt_humanize_numbers) {
