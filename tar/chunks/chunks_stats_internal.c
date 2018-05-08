@@ -77,6 +77,20 @@ chunks_stats_combine(struct chunkstats * a, struct chunkstats * b)
 	return (s);
 }
 
+uint64_t
+chunks_stats_newbytes(struct chunkstats * stats,
+    struct chunkstats * stats_extra)
+{
+	struct chunkstats s;
+	uint64_t newbytes;
+
+	/* Compute new bytes. */
+	s = chunks_stats_combine(stats, stats_extra);
+	newbytes = s.s_zlen + s.nchunks * STORAGE_FILE_OVERHEAD;
+
+	return (newbytes);
+}
+
 /**
  * chunks_stats_printheader(stream, csv):
  * Print a header line for statistics to ${stream}, optionally in ${csv}
