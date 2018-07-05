@@ -199,7 +199,7 @@ siginfo_printinfo(struct bsdtar *bsdtar, off_t progress)
 				    bsdtar->siginfo->total_uncompressed))
 				    == NULL)
 					goto err0;
-				safe_fprintf(stderr, "Processed %zu files, %s",
+				safe_fprintf(stderr, "Processed %i files, %s",
 				    bsdtar->siginfo->file_count,
 				    s_total_uncompressed);
 
@@ -207,7 +207,7 @@ siginfo_printinfo(struct bsdtar *bsdtar, off_t progress)
 				free(s_total_uncompressed);
 			} else {
 				safe_fprintf(stderr,
-				    "Processed %zu files, %" PRId64 " bytes",
+				    "Processed %i files, %" PRId64 " bytes",
 				    bsdtar->siginfo->file_count,
 				    bsdtar->siginfo->total_uncompressed);
 			}
